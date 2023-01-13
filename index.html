@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quotes</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        background: #252c33;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+        display: grid;
+        place-items: center;
+        font-family: cursive;
+        font-weight: bolder;
+      }
+      .container {
+        height: 60vh;
+        width: 45vw;
+        border-radius: 12%;
+        background-size: contain;
+        display: grid;
+        background-color: #eeeeee;
+        place-items: center;
+        box-shadow: 20px -20px;
+      }
+      .inner {
+        height: 50vh;
+        width: 37vw;
+        border-radius: 13%;
+        background: #f6c90e;
+        position: relative;
+        box-shadow: 16px 14px 20px #0000008c;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .inner::before {
+        content: "";
+        background-image: conic-gradient(#ff0052 20deg, transparent 120deg);
+        width: 150%;
+        height: 150%;
+        position: absolute;
+        animation: roatate 3s linear infinite;
+      }
+      @keyframes roatate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(-360deg);
+        }
+      }
+      .inner::after {
+        content: "";
+        width: 95%;
+        height: 95%;
+        background: #f6c90e;
+        border-radius: 13%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        box-shadow: inset 20px 20px 20px #0000008c;
+      }
+      #quotes {
+        height: 20vh;
+        width: 30vw;
+        color: black;
+        font-weight: 800;
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 3;
+      }
+      #author {
+        height: 10vh;
+        width: 20vw;
+        color: black;
+        font-weight: bolder;
+        text-align: center;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 3;
+      }
+      #newQ {
+        position: absolute;
+        cursor: pointer;
+        bottom:10%;
+        font-size:xx-large;
+      }
+      h2{
+        position: absolute;
+        top:10%;
+        font-family: "cascadia code";
+        font-weight: 800;
+        font-size:xx-large;
+        font-weight: 800;
+        color: white;
+        stroke: black;
+        
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Quotes For Everyone</h2>
+    <div class="container">
+      <div class="inner">
+        <div id="quotes"></div>
+        <div id="author"></div>
+      </div>
+    </div>
+    <button id="newQ">&#128522;</button>
+    <script>
+      const quotes = document.getElementById("quotes");
+      const author = document.getElementById("author");
+      const newQ = document.getElementById("newQ");
+      let realData = "";
+      let quotesData = "";
+      const getNewQuotes = async () => {
+        let r = Math.floor(Math.random() * 1642);
+        quotes.innerText = `${realData[r].text}`;
+        author.innerText = `-${realData[r].author}`;
+      };
+      const getQuotes = async () => {
+        const api = "https://type.fit/api/quotes";
+        try {
+          let data = await fetch(api);
+          realData = await data.json();
+          getNewQuotes();
+        } catch (error) {}
+      };
+      getQuotes();
+      newQ.addEventListener("click", getQuotes);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
